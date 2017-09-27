@@ -7,9 +7,9 @@ struct Nodo{
 	public:
 		char c;
 		Nodo * hijoMasI;
-		Nodo * hermanoDer;
+		Nodo * hermanoD;
 		Nodo(char);
 		~Nodo();
-		bool operator==(const Nodo&);
+		//bool operator==(const Nodo&);
 };
 #endif

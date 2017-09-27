@@ -16,7 +16,7 @@ void ArbolC::vaciar(){
 }
 
 bool ArbolC::vacia(){
-	return sHijo == 0;
+	return sHijoMI == 0;
 }
 
 void ArbolC::ponerRaiz(char et){
@@ -37,11 +37,14 @@ Nodo * ArbolC::hermanoDer(Nodo * n){
 	return (n->hermanoDer);
 }
 
-Nodo ArbolC::padre(Nodo * n){
-	if(sHijoMI->hijoMasI == ){
-		
+Nodo * ArbolC::padre(Nodo * n){
+	bool encontrado = false;
+	Nodo * padre = 0;
+	this->preOrdenR(this->raiz(),n,&encontrado,padre);
+	if(encontrado){
+		return padre;
 	}else{
-		
+		return 0;
 	}
 }
 
@@ -58,18 +61,20 @@ int ArbolC::gnumNodos(){
 
 
 int ArbolC::numHijos(Nodo n){
-	int iter = 0;
 	int numHijos = 0;
-	for(iter; iter < ultimo; ++iter){
-		if(nodoPadre[iter]==n){
+	if(padre->hijoMasI != NULL){
+		numHijos = 1;
+		Nodo * iter = padre->hijoMasI->hermanoD;
+		while(iter != NULL){
 			numHijos++;
+			iter = iter->hermanoD;
 		}
 	}
 	return numHijos;
 }
 
-void ArbolC::modificarEtiq(Nodo n, char c){
-	etiquetas[n-1] = c;
+void ArbolC::modificarEtiq(Nodo n, char et){
+	n->c = et;
 }
 
 void ArbolC::agregarHijo(Nodo * padre, int i, char c){
@@ -77,18 +82,15 @@ void ArbolC::agregarHijo(Nodo * padre, int i, char c){
 		if(i == 1){
 			Nodo * temp = padre->hijoMasI;
 			padre->hijoMasI = new Nodo(c);
-			padre->hijoMasI->hermanoDer = temp;
+			padre->hijoMasI->hermanoD = temp;
 		}else{
-			Nodo * temp = padre->hijoMasI; // esta donde se desea eliminar
-			Nodo * iter = padre->hijoMasI; // esta un nodo antes del que se desea eliminar
-			for(int j = 1; j < i ; ++j ){
-				temp = temp->hermanoDer;
-				if(2 >= j){
-					iter = iter->hermanoDer;
-				}
+			Nodo * iter = padre->hijoMasI; // se coloca al hermano izq de donde se desea agregar
+			for(int j = 1; j < i - 1 ; ++j ){
+				iter = iter->hermanoD;
 			}
-			iter->hermanoDer = new Nodo(c); // No se si esto afectara la orignal o solo iter
-			iter->hermanoDer->hermanoDer = temp;
+			Nodo * temp = iter->hermanoD;
+			iter->hermanoD = new Nodo(c);
+			iter->hermanoD->hermanoD = temp;
 		}
 	}else{
 		padre->hijoMasI = new Nodo(c);
@@ -98,18 +100,34 @@ void ArbolC::agregarHijo(Nodo * padre, int i, char c){
 
 
  void ArbolC::borrarHoja(Nodo n){
-	 int iter = n-1;
-	 while(iter < ultimo-1){
-		 etiquetas[iter] = etiquetas[iter+1];
-		 nodoPadre[iter] = nodoPadre[iter+1];
-		 iter++;
+	 Nodo * p = this->padre(nPorBorrar);
+	 bool borrado = 0;
+	 Nodo * iter = p->hijoMasI;
+	 while(iter!=NULL && !borrado){
+		 if(p->hijoMasI == nPorBorrar){
+			 Nodo * temp = p->hijoMasI->hermanoD;
+			 p->hijoMasI = temp;
+			 borrado = true;
+		 }else{
+			 if(iter->hermanoD == nPorBorrar){
+				 iter->hermanoD = iter->hermanoD->hermanoD; 
+				 borrado = true;
+			 }
+			 iter = iter->der;
+		 }
 	 }
-	 ultimo--;
  }
 
- void ArbolC::preOrdenR(Nodo * n){
-	 Nodo * nh = this->hijoMasIzq(n);
-	 while(nh!=NULL){
-		 preOrdenR(nh);
+  void ArbolC::preOrdenR(Nodo * raiz,Nodo * n, bool &encontrado, Nodo * padre){
+	 Nodo * nh = this->hijoMasIzq(rec);
+	 //padre = rec;
+	 while(nh!=NULL && !encontrado){
+		 if(nh == n){
+			 encontrado = true;
+			 padre = raiz;
+		 }else{
+			 preOrdenR(nh,n,encontrado,padre);
+			 nh = this->hermanoDer(nh);
+		 }
 	 }
  }

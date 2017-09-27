@@ -3,18 +3,19 @@
 Nodo::Nodo(char c){
 	this->c = c;
 	hijoMasI = 0;
-	hermanoDer = 0;
+	hermanoD = 0;
 }
 
 Nodo::~Nodo(){
-	if(hermanoDer){
-		delete hermanoDer;
+	if(hermanoD){
+		delete hermanoD;
 	}
 	if(hijoMasI){
 		delete hijoMasI;
 	}
 }
-
+/*
 bool Nodo::operator==(const Nodo& otro){
 	return this->c == otro.c;
 }
+*/

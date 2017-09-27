@@ -4,14 +4,15 @@
 #include<iostream>
 
 typedef int Nodo;
+typedef char Etiqueta;
 
 using namespace std;
 
 class ArbolA{
 	private:
-		char etiquetas[TAM];
+		Etiqueta etiquetas[TAM];
 		Nodo nodoPadre[TAM];
-		Nodo nodo[TAM];
+		//Nodo nodo[TAM];
 		int ultimo;
 		int numNodos;
 	public:
@@ -24,13 +25,13 @@ class ArbolA{
 		Nodo hermanoDer(Nodo);
 		Nodo padre(Nodo);
 		bool hoja(Nodo);
-		char etiqueta(Nodo);
+		Etiqueta etiqueta(Nodo);
 		int gnumNodos();
 		int numHijos(Nodo);
-		void modificarEtiq(Nodo, char);
-		void agregarHijo(Nodo, int, char);
+		void modificarEtiq(Nodo, Etiqueta);
+		void agregarHijo(Nodo, int, Etiqueta);
 		void borrarHoja(Nodo);
-		void ponerRaiz(char);
+		void ponerRaiz(Etiqueta);
 };
 
 #endif

@@ -19,19 +19,19 @@ bool ArbolA::vacia(){
 void ArbolA::ponerRaiz(char et){
 	ultimo++;
 	etiquetas[ultimo] = et;
-	nodo[ultimo] = ultimo;
+	//nodo[ultimo] = ultimo;
 	numNodos++;
 }
 
 
 Nodo ArbolA::raiz(){
-	return nodo[0];
+	return 0;
 }
  
 Nodo ArbolA::hijoMasIzq(Nodo n){
 	int iter = 0;
 	bool encontrado = false;
-	Nodo hmi = 0;
+	Nodo hmi = -1;
 	while(!encontrado && iter < ultimo){
 		if(nodoPadre[iter]==n){
 			hmi = iter;
@@ -59,10 +59,10 @@ Nodo ArbolA::padre(Nodo n){
 }
 
 bool ArbolA::hoja(Nodo n){
-	bool esHoja = false;
-	for(int iter = 0; !esHoja && iter < ultimo; ++iter){
+	bool esHoja = true;
+	for(int iter = 0; esHoja && iter < ultimo; ++iter){
 		if(nodoPadre[iter]==n){
-			esHoja=true;
+			esHoja=false;
 		}
 	}
 	return esHoja;
@@ -93,16 +93,23 @@ void ArbolA::modificarEtiq(Nodo n, char c){
 
 // Tal que los hijos son agregados en orden
 void ArbolA::agregarHijo(Nodo padre, int i, char c){
-	//int iter = padre + i;
-	if(ultimo == padre){
+	int inicio = this->hijoMasIzq(padre) + (i-1);
+	if(inicio != -1){ // si hay hijos
+		for(int j = ultimo; j >= inicio; j--){
+			etiquetas[j+1] = etiquetas[j];
+			//nodoPadre[i+1] = nodoPadre[]
+			if(nodoPadre[j] < inicio){
+				nodoPadre[j+1] = nodoPadre[j];
+			}else{
+				nodoPadre[j+1] = nodoPadre[j] + 1;
+			}
+		}
+		etiquetas[inicio] = c;
+		nodoPadre[inicio] = padre;
+	}else{ // si no hay hijos
 		etiquetas[ultimo + i] = c;
 		nodoPadre[ultimo + i] = padre;
-		nodo[ultimo + i] = ultimo + i;
-	}else{
-		etiquetas[ultimo + i + padre] = c;
-		nodoPadre[ultimo + i + padre] = padre;
-		nodo[ultimo + i + padre] = ultimo + i + padre;
-
+		//nodo[ultimo + i] = ultimo + i;
 	}
 	numNodos++;
 	ultimo++;
@@ -113,7 +120,11 @@ void ArbolA::agregarHijo(Nodo padre, int i, char c){
 	 int iter = n;
 	 while(iter < ultimo){
 		 etiquetas[iter] = etiquetas[iter+1];
-		 nodoPadre[iter] = nodoPadre[iter+1];
+		 if(n < nodoPadre[iter+1]{
+			nodoPadre[iter] = nodoPadre[iter+1] - 1;
+		 }else{
+			 nodoPadre[iter] = nodoPadre[iter+1];
+		 }
 		 iter++;
 	 }
 	 ultimo--;

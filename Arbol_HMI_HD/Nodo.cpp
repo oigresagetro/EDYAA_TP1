@@ -1,9 +1,15 @@
 #include "Nodo.h"
 
-Nodo::Nodo(char c){
-	this->c = c;
-	hijoMasI = 0;
-	hermanoD = 0;
+Nodo::Nodo(){
+	this->etiqueta = 0;
+	this->hijoMasI = 0;
+	this->hermanoD = 0;
+
+}
+Nodo::Nodo(char e){
+	this->etiqueta = e;
+	this->hijoMasI = 0;
+	this->hermanoD = 0;
 }
 
 Nodo::~Nodo(){
@@ -14,8 +20,12 @@ Nodo::~Nodo(){
 		delete hijoMasI;
 	}
 }
-/*
-bool Nodo::operator==(const Nodo& otro){
-	return this->c == otro.c;
+void Nodo::setEtiqueta(char e){
+	this->etiqueta = e;
 }
-*/
+char Nodo::getEtiqueta(){
+	return this->etiqueta;
+}
+bool Nodo::operator==(const Nodo& otro){
+	return this->etiqueta == otro.etiqueta;
+}

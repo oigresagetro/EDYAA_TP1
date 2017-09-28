@@ -8,14 +8,14 @@ using namespace std;
 
 class ArbolC{
 	private:
-		Nodo * sHijoMI;
+		Nodo * sHijoMI; //señalador al HMI
 		int numNodos;
 	public:
 		ArbolC();
 		~ArbolC();
-		void preOrdenR(Nodo *);
+		void preOrdenR(Nodo *, Nodo*, bool&, Nodo*);
 		void vaciar();
-		bool vacia();
+		bool vacio();
 		Nodo *raiz();
 		Nodo *hijoMasIzq(Nodo*);
 		Nodo *hermanoDer(Nodo*);

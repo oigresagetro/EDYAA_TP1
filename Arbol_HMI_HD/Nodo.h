@@ -4,12 +4,18 @@
 using namespace std;
 
 struct Nodo{
+	private:
+		char etiqueta;
+
 	public:
-		char c;
 		Nodo * hijoMasI;
 		Nodo * hermanoD;
+
+		Nodo();
 		Nodo(char);
 		~Nodo();
-		//bool operator==(const Nodo&);
+		void setEtiqueta(char);
+		char getEtiqueta();
+		bool operator==(const Nodo&);
 };
 #endif

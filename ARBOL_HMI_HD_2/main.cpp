@@ -19,5 +19,9 @@ int main(){
         hn = arbol.hermanoDer(hn);
       }
       cout<<arbol.gnumNodos()<<endl;
+      Nodo2 * nh = arbol.hijoMasIzq(raiz);
+      nh = arbol.hermanoDer(nh);
+      arbol.borrarHoja(nh);
+      cout<<arbol.gnumNodos()<<endl;
       return 0;
 }

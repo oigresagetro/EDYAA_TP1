@@ -119,39 +119,8 @@ void ArbolD::agregarHijo(Nodo2 * padre, int i, char et){
 		}
 	}
 }
-	/*
-	if(padre->hijoMasI != 0){
-		if(i == 1){
-			Nodo2 * temp = padre->hijoMasI;
-			padre->hijoMasI = new Nodo2(c);
-			padre->hijoMasI->hermanoD = temp;
-			padre->hijoMasI->stePadre = false;
-		}else{
-			Nodo2 * iter = padre->hijoMasI; // se coloca al hermano izq de donde se desea agregar
-			for(int j = 1; j < i - 1 ; ++j ){
-				iter = iter->hermanoD;
-			}
-			Nodo2 * temp = iter->hermanoD;
-			iter->hermanoD = new Nodo2(c);
-			if(temp == 0){
-				iter->hermanoD->hermanoD = padre;
-				iter->hermanoD->stePadre = true;
-			}else{
-				iter->hermanoD->hermanoD = temp;
-				iter->hermanoD->stePadre = false;
-			}
-		}
-	}else{
-		padre->hijoMasI = new Nodo2(c);
-		padre->hijoMasI->hermanoD = padre;
-		padre->hijoMasI->stePadre = true;
-	}
 
-}
-*/
-
-
- void ArbolD::borrarHoja(Nodo2 * nPorBorrar){
+void ArbolD::borrarHoja(Nodo2 * nPorBorrar){
 	 Nodo2 * p = this->padre(nPorBorrar);
 	 bool borrado = 0;
 	 bool primero = false;

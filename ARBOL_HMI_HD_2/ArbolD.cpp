@@ -31,7 +31,6 @@ Nodo2 * ArbolD::raiz(){
 }
 
 Nodo2 * ArbolD::hijoMasIzq(Nodo2 * nodo){
-	cout<<10<<endl;
 	return nodo->hijoMasI;
 }
 
@@ -87,27 +86,26 @@ void ArbolD::modificarEtiq(Nodo2 * nodo, char et){
 
 void ArbolD::agregarHijo(Nodo2 * padre, int i, char et){
 	if(i == 1){
-		cout<<1<<endl;
-		Nodo2 * temp = padre->hijoMasI;
-		cout<<2<<endl;
-		Nodo2 * nuevoHMI = new Nodo2(et);
-		padre->hijoMasI = nuevoHMI;
-		cout<<3<<endl;
-		padre->hijoMasI->hermanoD = temp;
-		cout<<4<<endl;
-		if(padre->hijoMasI->hermanoD == 0){
-			cout<<5<<endl;
-			padre->hijoMasI->hermanoD = padre;
-			cout<<6<<endl;
+		if(padre->hijoMasI==0){
+			Nodo2 * nuevoHMI = new Nodo2(et);
+			padre->hijoMasI = nuevoHMI;
+			++numNodos;
+		}else{
+			Nodo2 * temp = padre->hijoMasI;
+			Nodo2 * nuevoHMI = new Nodo2(et);
+			padre->hijoMasI = nuevoHMI;
+			padre->hijoMasI->hermanoD = temp;
+			if(padre->hijoMasI->hermanoD == 0){
+				padre->hijoMasI->hermanoD = padre;
+			}
+			++numNodos;
 		}
-		cout<<7<<endl;
-		++numNodos;
 	}else{
 		Nodo2 * iter = padre->hijoMasI; // se coloca al hermano izq de donde se desea agregar
 		for(int j = 1; j < i - 1 ; ++j ){
 			iter = iter->hermanoD;
 		}
-		if(iter->hermanoD == 0){
+		if(iter->hermanoD == padre){
 			Nodo2 * nuevoHD = new Nodo2(et);
 			iter->hermanoD = nuevoHD;
 			nuevoHD->hermanoD = padre;
@@ -120,7 +118,6 @@ void ArbolD::agregarHijo(Nodo2 * padre, int i, char et){
 				++numNodos;
 		}
 	}
-	cout<<8<<endl;
 }
 	/*
 	if(padre->hijoMasI != 0){
@@ -151,7 +148,7 @@ void ArbolD::agregarHijo(Nodo2 * padre, int i, char et){
 	}
 
 }
-
+*/
 
 
  void ArbolD::borrarHoja(Nodo2 * nPorBorrar){
@@ -189,4 +186,3 @@ void ArbolD::agregarHijo(Nodo2 * padre, int i, char et){
 	 }
  }
  }
-*/

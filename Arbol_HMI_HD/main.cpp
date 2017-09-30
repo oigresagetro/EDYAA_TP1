@@ -7,7 +7,7 @@ int main(){
       ArbolC arbol;
       arbol.ponerRaiz('S');
       Nodo * raiz = arbol.raiz();
-      /*
+
       //cout<< arbol.etiqueta(raiz)<<endl;
       arbol.agregarHijo(raiz,1,'P');
       Nodo * hijo = arbol.hijoMasIzq(raiz);
@@ -24,7 +24,7 @@ int main(){
         cout<< arbol.etiqueta(hermanoDer)<<endl;
         hermanoDer = arbol.hermanoDer(hermanoDer);
       }
-      */
+      
       /*
       arbol.agregarHijo(raiz,1,'P');
       Nodo * HMI = arbol.hijoMasIzq(raiz);
@@ -32,7 +32,7 @@ int main(){
       cout<<arbol.hoja(HMI)<<endl;
       cout<<arbol.gnumNodos()<<endl;
       */
-
+      /*
       arbol.agregarHijo(raiz,1,'P');
       Nodo * HMI = arbol.hijoMasIzq(raiz);
       arbol.agregarHijo(raiz,2,'Q');
@@ -40,7 +40,7 @@ int main(){
       cout<<arbol.numHijos(raiz)<<endl;
       //arbol.modificarEtiq(HMI,'R');
       cout<<arbol.etiqueta(HMI)<<endl;
-
+      */
 
       return 0;
 }

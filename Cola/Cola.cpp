@@ -8,11 +8,13 @@ Cola::Cola(){
 
 
 Cola::~Cola(){
-	
+
 }
 
 void Cola::vaciar(){
     numeroElem=0;
+		primero = 1;
+		ultimo = 0;
 }
 
 void Cola::encolar(int e){
@@ -44,5 +46,3 @@ int Cola::vacia(){
 int Cola::numElem(){
     return numeroElem;
 }
-
-

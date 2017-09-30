@@ -23,12 +23,13 @@ bool ArbolC::vacio(){
 
 void ArbolC::ponerRaiz(char et){
 	Nodo * raiz = new Nodo(et);
-	sHijoMI->hijoMasI = raiz;
+	sHijoMI = raiz;
+	++numNodos;
 }
 
 
 Nodo * ArbolC::raiz(){
-	return sHijoMI->hijoMasI;
+	return sHijoMI;
 }
 
 Nodo * ArbolC::hijoMasIzq(Nodo * nodo){
@@ -39,10 +40,10 @@ Nodo * ArbolC::hermanoDer(Nodo * nodo){
 	return nodo->hermanoD;
 }
 
-Nodo * ArbolC::padre(Nodo * numNodos){
+Nodo * ArbolC::padre(Nodo * n){
 	bool encontrado = false;
 	Nodo * padre = 0;
-	this->preOrdenR(this->raiz(),n,&encontrado,padre);
+	this->preOrdenR(this->raiz(),n,encontrado,padre);
 	if(encontrado){
 		return padre;
 	}else{
@@ -80,7 +81,7 @@ void ArbolC::modificarEtiq(Nodo * nodo, char et){
 }
 
 void ArbolC::agregarHijo(Nodo * padre, int i, char et){
-	if(padre->hijoMasI != 0){
+	//if(padre->hijoMasI != 0){
 		if(i == 1){
 			Nodo * temp = padre->hijoMasI;
 			Nodo * nuevoHMI = new Nodo(et);
@@ -92,21 +93,22 @@ void ArbolC::agregarHijo(Nodo * padre, int i, char et){
 			for(int j = 1; j < i - 1 ; ++j ){
 				iter = iter->hermanoD;
 			}
-			if(iter == 0){
+			if(iter->hermanoD == 0){
 				Nodo * nuevoHD = new Nodo(et);
-				padre->hijoMasI->hermanoD = nuevoHD;
+				iter->hermanoD = nuevoHD;
 				++numNodos;
 			}else{
-				Nodo * nuevoHD = new Nodo(et);
-				padre->hijoMasI->hermanoD = nuevoHD;
-				nuevoHD->hermanoD = iter;
-				++numNodos;
+					Nodo * nuevoHD = new Nodo(et);
+					Nodo * temp = iter->hermanoD;
+					iter->hermanoD = nuevoHD;
+					nuevoHD->hermanoD = temp;
+					++numNodos;
 			}
 		}
 	}
-}
+//}
 void ArbolC::borrarHoja(Nodo * nodo){
-	if(hoja(nodo)){
+	if(this->hoja(nodo)){
 		bool borrado = false;
 	 	Nodo * padre = this->padre(nodo);
 	 	Nodo * iter = padre->hijoMasI;
@@ -114,16 +116,18 @@ void ArbolC::borrarHoja(Nodo * nodo){
 		 	Nodo * temp = nodo->hermanoD;
 			padre->hijoMasI = temp;
 			nodo->hermanoD = 0;
+			--numNodos;
 			delete nodo;
 	 	}else{
 	 		while(iter!=0 && !borrado){
 				iter = iter->hermanoD;
-		 		if(iter == nodo && nodo->hermanoD != 0 && nodo == padre->hijoMasI->hermanoD){
+		 		if(iter == nodo && nodo == padre->hijoMasI->hermanoD){
 			 		Nodo * temp = iter->hermanoD;
 			 		padre->hijoMasI->hermanoD = temp;
 					nodo->hermanoD = 0;
 					delete nodo;
 			 		borrado = true;
+					--numNodos;
 		 		}else{
 					Nodo * temp = iter;
 					iter = iter->hermanoD;
@@ -132,6 +136,7 @@ void ArbolC::borrarHoja(Nodo * nodo){
 							nodo->hermanoD = 0;
 							delete nodo;
 				 			borrado = true;
+							--numNodos;
 			 		}
 		 		}
 	 		}
@@ -139,10 +144,10 @@ void ArbolC::borrarHoja(Nodo * nodo){
  	}
 }
 
-  void ArbolC::preOrdenR(Nodo * raiz,Nodo * n, bool &encontrado, Nodo * padre){
-	 Nodo * nh = this->hijoMasIzq(rec);
+  void ArbolC::preOrdenR(Nodo * raiz, Nodo * n, bool &encontrado, Nodo * padre){
+	 Nodo * nh = this->hijoMasIzq(raiz);
 	 //padre = rec;
-	 while(nh!=NULL && !encontrado){
+	 while(nh!=0 && !encontrado){
 		 if(nh == n){
 			 encontrado = true;
 			 padre = raiz;

@@ -13,12 +13,12 @@ class Cola{
 	public:
 		Cola();
 		~Cola();
+		bool vacia();
 		void vaciar();
 		void encolar(int);
 		void desencolar();
 		int frente();
-        int numElem();
-        int vacia();
+    int numElem();
 };
 
 #endif

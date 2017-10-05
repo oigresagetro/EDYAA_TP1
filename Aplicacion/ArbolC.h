@@ -1,21 +1,22 @@
-#ifndef _ARBOLHMIHDULTIMOALPADRE
-#define _ARBOLHMIHDULTIMOALPADRE
+#ifndef _ARBOLHMIHD
+#define _ARBOLHMIHD
 #define TAM 20
 #include<iostream>
-#include "Nodo2.h"
+#include "Caja.h"
 
-typedef Nodo2* Nodo;
-typedef char Etiqueta; 
+typedef Caja* Nodo;
+typedef char Etiqueta;
 
 using namespace std;
 
-class ArbolD{
+class ArbolC{
 	private:
-		Nodo sRaiz;
+		Nodo sRaiz; //señalador al HMI
 		int numNodos;
 	public:
-		ArbolD();
-		~ArbolD();
+		ArbolC();
+		~ArbolC();
+		Nodo preOrdenR(Nodo, Nodo, bool&);
 		void posOrdenB(Nodo);
 		void vaciar();
 		bool vacia();
@@ -28,7 +29,7 @@ class ArbolD{
 		int gnumNodos();
 		int numHijos(Nodo);
 		void modificarEtiq(Nodo, Etiqueta);
-		void agregarHijo(Nodo, int, Etiqueta);
+		Nodo agregarHijo(Nodo, int, Etiqueta);
 		void borrarHoja(Nodo);
 		void ponerRaiz(Etiqueta);
 };

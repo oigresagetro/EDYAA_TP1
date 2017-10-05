@@ -15,7 +15,7 @@ int main(){
 //  cola.desencolar();
 //  cout<< cola.frente()<<endl;
 //  cout<< cola.numElem() << endl;
-    
+
 //    Cola cola;
 //    cola.desencolar();
 //    cola.encolar(10);
@@ -23,12 +23,11 @@ int main(){
 //    cout<< cola.Vacia()<<endl;
 //    cola.desencolar();
 //    cout<< cola.vacia()<<endl;
-    
-    Cola cola;
-    for(int i=1; i<TAM; ++i){
-        cola.encolar(i);
-        cout<<cola.frente()<<endl;
-        cola.desencolar();
-    }
+
+  Cola cola;
+  cola.encolar(3);
+  cout << cola.frente()<<endl;
+  cola.desencolar();
+  cout << cola.frente()<<endl;
 	return 0;
 }

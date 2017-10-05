@@ -4,30 +4,33 @@
 #include<iostream>
 #include "Nodo2.h"
 
+typedef Nodo2* Nodo;
+typedef char Etiqueta; 
+
 using namespace std;
 
 class ArbolD{
 	private:
-		Nodo2 * sHijoMI;
+		Nodo sRaiz;
 		int numNodos;
 	public:
 		ArbolD();
 		~ArbolD();
-		void preOrdenR(Nodo2 *);
+		void posOrdenB(Nodo);
 		void vaciar();
 		bool vacia();
-		Nodo2 *raiz();
-		Nodo2 *hijoMasIzq(Nodo2*);
-		Nodo2 *hermanoDer(Nodo2*);
-		Nodo2 *padre(Nodo2*);
-		bool hoja(Nodo2*);
-		char etiqueta(Nodo2*);
+		Nodo raiz();
+		Nodo hijoMasIzq(Nodo);
+		Nodo hermanoDer(Nodo);
+		Nodo padre(Nodo);
+		bool hoja(Nodo);
+		Etiqueta etiqueta(Nodo);
 		int gnumNodos();
-		int numHijos(Nodo2*);
-		void modificarEtiq(Nodo2*, char);
-		void agregarHijo(Nodo2*, int, char);
-		void borrarHoja(Nodo2*);
-		void ponerRaiz(char);
+		int numHijos(Nodo);
+		void modificarEtiq(Nodo, Etiqueta);
+		void agregarHijo(Nodo, int, Etiqueta);
+		void borrarHoja(Nodo);
+		void ponerRaiz(Etiqueta);
 };
 
 #endif

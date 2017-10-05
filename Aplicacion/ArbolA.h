@@ -1,22 +1,22 @@
-#ifndef _ARBOLHMIHDULTIMOALPADRE
-#define _ARBOLHMIHDULTIMOALPADRE
-#define TAM 20
+#ifndef _ARBOLSENYA
+#define _ARBOLSENYA
+#define TAM 30
 #include<iostream>
-#include "Nodo2.h"
 
-typedef Nodo2* Nodo;
-typedef char Etiqueta; 
+typedef int Nodo;
+typedef char Etiqueta;
 
 using namespace std;
 
-class ArbolD{
+class Arbol{
 	private:
-		Nodo sRaiz;
+		Etiqueta etiquetas[TAM];
+		Nodo nodoPadre[TAM];
+		int ultimo;
 		int numNodos;
 	public:
-		ArbolD();
-		~ArbolD();
-		void posOrdenB(Nodo);
+		Arbol();
+		~Arbol();
 		void vaciar();
 		bool vacia();
 		Nodo raiz();

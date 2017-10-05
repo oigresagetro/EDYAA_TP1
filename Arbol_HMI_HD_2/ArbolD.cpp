@@ -1,40 +1,51 @@
 #include "ArbolD.h"
 
 ArbolD::ArbolD(){
-	sHijoMI = 0;
+	sRaiz = 0;
 	numNodos = 0;
 }
 
 ArbolD::~ArbolD(){
-	if(this->sHijoMI){
-		delete this->sHijoMI;
+	if(!this->vacia()){
+		this->posOrdenB(sRaiz);
 	}
 }
 
-void ArbolD::vaciar(){
-	this->sHijoMI = 0;
-}
-
 bool ArbolD::vacia(){
-	return this->sHijoMI == 0;
+	return this->sRaiz == 0;
 }
 
-void ArbolD::ponerRaiz(char et){
-	Nodo2 * raiz = new Nodo2(et);
-	this->sHijoMI = raiz;
+void ArbolD::vaciar(){
+	delete this;
+	sRaiz = 0;
+}
+
+void ArbolD::posOrdenB(Nodo n){
+	Nodo nh = this->hijoMasIzq(n);
+	while(nh!=0){
+		this->posOrdenB(nh);
+		nh = this->hermanoDer(nh);
+	}
+	delete n;
+}
+
+
+void ArbolD::ponerRaiz(Etiqueta et){
+	sRaiz = new Nodo2(et);
+	sRaiz->stePadre = true;
 	++numNodos;
 }
 
 
 Nodo2 * ArbolD::raiz(){
-	return sHijoMI;
+	return this->sRaiz;
 }
 
-Nodo2 * ArbolD::hijoMasIzq(Nodo2 * nodo){
+Nodo ArbolD::hijoMasIzq(Nodo nodo){
 	return nodo->hijoMasI;
 }
 
-Nodo2 * ArbolD::hermanoDer(Nodo2 * nodo){
+Nodo ArbolD::hermanoDer(Nodo nodo){
 	if(nodo->stePadre == true){
 		return 0;
 	}else{
@@ -42,11 +53,12 @@ Nodo2 * ArbolD::hermanoDer(Nodo2 * nodo){
 	}
 }
 
-Nodo2 * ArbolD::padre(Nodo2 * nodo){
+Nodo ArbolD::padre(Nodo nodo){
+
 	if(nodo->stePadre == true){
 		return nodo->hermanoD;
 	}else{
-		Nodo2 * iter = nodo;
+		Nodo iter = nodo;
 		while(!iter->stePadre){
 			iter = iter->hermanoD;
 		}
@@ -54,104 +66,95 @@ Nodo2 * ArbolD::padre(Nodo2 * nodo){
 	}
 }
 
-bool ArbolD::hoja(Nodo2 * nodo){
+bool ArbolD::hoja(Nodo nodo){
 	return nodo->hijoMasI == 0;
 }
 
-char ArbolD::etiqueta(Nodo2 * nodo){
-	return nodo->getEtiqueta();
+Etiqueta ArbolD::etiqueta(Nodo nodo){
+	return nodo->etiqueta;
 }
+
 int ArbolD::gnumNodos(){
 	return this->numNodos;
 }
 
 
-int ArbolD::numHijos(Nodo2 * padre){
+int ArbolD::numHijos(Nodo padre){
 	int numHijos = 0;
 	if(padre->hijoMasI != NULL){
 		numHijos = 1;
-		Nodo2 * iter = padre->hijoMasI->hermanoD;
-		while(!iter->stePadre){
-			++numHijos;
+		Nodo iter = padre->hijoMasI;
+		while(iter->stePadre==false){
 			iter = iter->hermanoD;
+			++numHijos;
 		}
-		++numHijos;
 	}
 	return numHijos;
 }
 
-void ArbolD::modificarEtiq(Nodo2 * nodo, char et){
-	nodo->setEtiqueta(et);
+void ArbolD::modificarEtiq(Nodo nodo, Etiqueta et){
+	nodo->etiqueta = et;
 }
 
-void ArbolD::agregarHijo(Nodo2 * padre, int i, char et){
+void ArbolD::agregarHijo(Nodo padre, int i, Etiqueta et){
 	if(i == 1){
 		if(padre->hijoMasI==0){
-			Nodo2 * nuevoHMI = new Nodo2(et);
-			padre->hijoMasI = nuevoHMI;
+			padre->hijoMasI = new Nodo2(et);
+			padre->hijoMasI->hermanoD = padre;
+			padre->hijoMasI->stePadre = true;
 			++numNodos;
 		}else{
-			Nodo2 * temp = padre->hijoMasI;
-			Nodo2 * nuevoHMI = new Nodo2(et);
-			padre->hijoMasI = nuevoHMI;
+			Nodo temp = padre->hijoMasI;
+			padre->hijoMasI = new Nodo2(et);
 			padre->hijoMasI->hermanoD = temp;
-			if(padre->hijoMasI->hermanoD == 0){
-				padre->hijoMasI->hermanoD = padre;
-			}
 			++numNodos;
 		}
 	}else{
-		Nodo2 * iter = padre->hijoMasI; // se coloca al hermano izq de donde se desea agregar
+		Nodo iter = padre->hijoMasI; // se coloca al hermano izq de donde se desea agregar
 		for(int j = 1; j < i - 1 ; ++j ){
 			iter = iter->hermanoD;
 		}
-		if(iter->hermanoD == padre){
-			Nodo2 * nuevoHD = new Nodo2(et);
-			iter->hermanoD = nuevoHD;
-			nuevoHD->hermanoD = padre;
+		if(iter->stePadre){
+			iter->hermanoD = new Nodo2(et);
+			iter->hermanoD->hermanoD = padre;
+			iter->stePadre = false;
+			iter->hermanoD->stePadre = true;
 			++numNodos;
 		}else{
-				Nodo2 * nuevoHD = new Nodo2(et);
-				Nodo2 * temp = iter->hermanoD;
-				iter->hermanoD = nuevoHD;
-				nuevoHD->hermanoD = temp;
-				++numNodos;
+			Nodo temp = iter->hermanoD;
+			iter->hermanoD = new Nodo2(et);
+			iter->hermanoD->hermanoD = temp;
+			++numNodos;
 		}
 	}
 }
 
-void ArbolD::borrarHoja(Nodo2 * nPorBorrar){
-	 Nodo2 * p = this->padre(nPorBorrar);
-	 bool borrado = 0;
-	 bool primero = false;
-	 Nodo2 * iter = nPorBorrar;
-	 //Nodo2 * iter = p->hijoMasI;
-	 while(!borrado){
-		 if(iter->hermanoD == p){
-			 iter = iter->hermanoD;
-			 primero = true;
+void ArbolD::borrarHoja(Nodo nPorBorrar){
+	if(hoja(nPorBorrar)){
+	 Nodo p = this->padre(nPorBorrar);
+	 Nodo iter = p->hijoMasI;
+	 if(iter == nPorBorrar){
+		 if(iter->stePadre == true){
+			 p->hijoMasI = 0;
+			 --numNodos;
 		 }else{
-			if(primero){
-				if(iter->hijoMasI == nPorBorrar){
-					iter->hijoMasI = iter->hijoMasI->hermanoD;
-					borrado = true;
-				}else{
-					iter = iter->hijoMasI;
-				}
-			}else{
-				if(iter->hermanoD == nPorBorrar){
-					if(iter->hermanoD->stePadre){
-						iter->hermanoD = p;
-						iter->stePadre = true;
-						borrado = true;
-					}else{
-						iter->hermanoD = iter->hermanoD->hermanoD;
-						borrado = true;
-					}
-				}else{
-					iter = iter->hermanoD;
-				}
-			}
-	 }
- }
- }
+			 Nodo temp = nPorBorrar->hermanoD;
+			 p->hijoMasI = temp;
+			 nPorBorrar->hermanoD = 0;
+			 --numNodos;
+		 }
+	 }else{
+		 while(iter->hermanoD != nPorBorrar){
+			iter = iter->hermanoD;
+		 }
+		 if(iter->hermanoD->stePadre){
+			 iter->hermanoD = p;
+			 iter->stePadre = true;
+			 --numNodos;
+		 }else{
+			 iter->hermanoD = iter->hermanoD->hermanoD;
+			 --numNodos;
+		 }
+		}
+	}
+}

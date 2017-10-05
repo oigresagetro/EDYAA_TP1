@@ -1,248 +1,146 @@
 #include "ArbolL.h"
-//------------------CLASE LISTAP--------------------
-ArbolL::ListaP::CajaP::CajaP(Etiqueta e){
-	this->etiq = e;
-	this->siguiente = 0;
-	this->sub = 0;
-}
-
-ArbolL::ListaP::CajaP::~CajaP(){//Para borrar todos consecutivamente.
-	if(this->siguiente){
-		delete this->siguiente;
-	}
-}
-
-ArbolL::ListaP::ListaP(){
-	primero = 0;
-	ultimo = 0;
-	longitud = 0;
-}
-
-ArbolL::ListaP::~ListaP(){
-	if(primero){
-		delete primero;
-	}
-}
-
-void ArbolL::ListaP::insertar(Etiqueta e, int indice){
-	if(indice == longitud-1){//ultimo
-		this->agrAlFinal(e);
-	}
-	else{
-		if(indice == 0){//Primero
-			this->agrAlInicio(e);
-		}
-		else{
-			CajaP * nueva = new CajaP(e);
-			CajaP * iterador = primero;
-			int contador = 0;
-			while(contador != indice-1){//queda en el anterior a la posicion deseada.
-				iterador = iterador->siguiente;
-				++contador;
-			}
-			nueva->siguiente = iterador->siguiente;
-			iterador->siguiente = nueva;
-			++longitud;
-		}
-	}	
-}
-
-void ArbolL::ListaP::agrAlFinal(Etiqueta e){
-	CajaP * nueva = new CajaP(e);
-	if(this->ultimo){
-		this->ultimo->siguiente = nueva;
-		this->ultimo = nueva;
-	}
-	else{
-		primero = ultimo = nueva;
-	}
-	++longitud;
-}
-
-void ArbolL::ListaP::agrAlInicio(Etiqueta e){
-	CajaP * nueva = new CajaP(e);
-	if(this->primero){
-		nueva->siguiente = this->primero;
-		this->primero = nueva;
-	}
-	else{
-		primero = ultimo = nueva;
-	}
-	++longitud;
-}
-
-void ArbolL::ListaP::borrar(CajaP * caja){
-	CajaP * victima;
-	if(caja == primero){//Al inicio
-		victima = primero;
-		primero = primero->siguiente;
-		delete victima;
-	}
-	else if(caja == ultimo){//Al final
-		CajaP * iter = primero;
-		victima = ultimo;
-		while(iter->siguiente != ultimo){//Queda en el penultimo
-			iter = iter->siguiente;
-		}
-		ultimo = iter;
-		ultimo->siguiente = 0;
-		delete victima;
-	}
-	else{//En el "medio"
-		CajaP * iter = primero; 
-		victima = caja;
-		while(iter->siguiente != caja){
-			iter = iter->siguiente;
-		}
-		iter->siguiente = caja->siguiente;
-		delete victima;
-	}
-	--longitud;
-}
-
-void ArbolL::ListaP::modificar(CajaP* caja, Etiqueta e){
-	caja->etiq = e;
-}
-
-ArbolL::ListaP::CajaP* ArbolL::ListaP::primera(){
-	return this->primero;
-}
-
-ArbolL::ListaP::CajaP* ArbolL::ListaP::ultima(){
-	return this->ultimo;
-}
-
-ArbolL::ListaP::CajaP* ArbolL::ListaP::siguiente(CajaP * c){
-	return c->siguiente;
-}
-
-Etiqueta ArbolL::ListaP::recuperar(CajaP * c){
-	return c->etiq;
-}
-//---------------------------CLASE SUBLISTA-------------------------
-ArbolL::SubLista::CajaSub::CajaSub(CajaP* correspondiente){
-	this->siguiente = 0;
-	this->principal = correspondiente;
-}
-
-ArbolL::SubLista::CajaSub::~CajaSub(){
-	if(this->siguiente){
-		delete this->siguiente;
-	}
-}
-
-ArbolL::SubLista::SubLista(){
-	primero = 0;
-	ultimo = 0;
-	longitud = 0;
-}
-
-ArbolL::SubLista::~SubLista(){
-	if(primero){
-		delete primero;
-	}
-}
-
-void ArbolL::SubLista::insertar(int indice, CajaP* correspondiente){
-	if(indice == longitud-1){//ultimo
-		this->agrAlFinal(correspondiente);
-	}
-	else{
-		if(indice == 0){//Primero
-			this->agrAlInicio(correspondiente);
-		}
-		else{
-			CajaSub * nueva = new CajaSub(correspondiente);
-			CajaSub * iterador = primero;
-			int contador = 0;
-			while(contador != indice-1){//queda en el anterior a la posicion deseada.
-				iterador = iterador->siguiente;
-				++contador;
-			}
-			nueva->siguiente = iterador->siguiente;
-			iterador->siguiente = nueva;
-			++longitud;
-		}
-	}
-}
-
-void ArbolL::SubLista::agrAlFinal(CajaP* correspondiente){
-	CajaSub * nueva = new CajaSub(correspondiente);
-	if(this->ultimo){
-		this->ultimo->siguiente = nueva;
-		this->ultimo = nueva;
-	}
-	else{
-		primero = ultimo = nueva;
-	}
-	++longitud;
-}
-
-void ArbolL::SubLista::agrAlInicio(CajaP* correspondiente){
-	CajaSub* nueva = new CajaSub(correspondiente);
-	if(this->primero){
-		nueva->siguiente = this->primero;
-		this->primero = nueva;
-	}
-	else{
-		primero = ultimo = nueva;
-	}
-	++longitud;
-}
-
-void ArbolL::SubLista::borrar(CajaSub* caja){
-	CajaSub * victima;
-	if(caja == primero){//Al inicio
-		victima = primero;
-		primero = primero->siguiente;
-		delete victima;
-	}
-	else if(caja == ultimo){//Al final
-		CajaSub * iter = primero;
-		victima = ultimo;
-		while(iter->siguiente != ultimo){//Queda en el penultimo
-			iter = iter->siguiente;
-		}
-		ultimo = iter;
-		ultimo->siguiente = 0;
-		delete victima;
-	}
-	else{//En el "medio"
-		CajaSub * iter = primero; 
-		victima = caja;
-		while(iter->siguiente != caja){
-			iter = iter->siguiente;
-		}
-		iter->siguiente = caja->siguiente;
-		delete victima;
-	}
-	--longitud;
-}
-
-ArbolL::SubLista::CajaSub * ArbolL::SubLista::primera(){
-	return this->primero;
-}
-
-ArbolL::SubLista::CajaSub * ArbolL::SubLista::ultima(){
-	return this->ultimo;
-}
-
-ArbolL::SubLista::CajaSub * ArbolL::SubLista::siguiente(CajaSub* c){
-	return c->siguiente;
-}
-
-ArbolL::SubLista::CajaP* ArbolL::SubLista::recuperar(CajaSub* c){
-	return c->principal;
-}
+#include <iostream>
+using namespace std;
 
 ArbolL::ArbolL(){
 	listaP = 0;
 }
 
 ArbolL::~ArbolL(){
-	delete listaP;
+
+}
+
+void ArbolL::borrado(CajaP * c){
+	CajaSub * iter;
+	CajaP * victima;
+	while(c->siguiente != 0){
+		victima = c;
+		if(!esHoja(c)){
+			iter = c->sub->primera();
+			while(iter->siguiente != 0){
+				delete iter;
+				iter = iter->siguiente;
+			}
+		}
+		c = c->siguiente;
+		delete victima;
+	}
 }
 
 void ArbolL::vaciar(){
-	
+	if(!vacia()){
+		borrado(listaP->primera());
+	}
+}
+
+bool ArbolL::vacia(){
+	return listaP == 0;
+}
+
+CajaP * ArbolL::raiz(){
+	return listaP->primera();
+}
+
+CajaP * ArbolL::hijoMasIzq(CajaP * caja){
+	return caja->getSub()->primera()->getPrincipal();
+}
+
+CajaP * ArbolL::hermanoDer(CajaP * caja){
+	CajaP * papa = padre(caja);
+	CajaP * hd = NULL;
+	bool encontrado = false;
+	SubLista * hijos = papa->getSub();
+	CajaSub * iter = hijos->primera();//ERROR AQUI
+	while(iter->getSiguiente() != 0 && !encontrado){
+		if(iter->getPrincipal() == caja){
+			hd = iter->getSiguiente()->getPrincipal();//como sí importa el orden.
+			encontrado = true;
+		}
+		iter = iter->getSiguiente();
+	}
+	return hd;
+}
+
+CajaP * ArbolL::padre(CajaP * caja){
+	bool encontrado = false;
+	CajaP * iterP = listaP->primera();
+	CajaSub * iterSub;
+	CajaP* papa = NULL;
+	while(!encontrado && iterP->getSiguiente() != 0){
+		if(!esHoja(iterP) && iterP != caja){
+			iterSub = iterP->getSub()->primera();
+			while(iterSub->getSiguiente() != 0 && !encontrado){
+				if(iterSub->getPrincipal() == caja){
+					encontrado = true;
+					papa = iterP;
+				}
+				iterSub = iterSub->getSiguiente();
+			}
+		}
+		iterP = iterP->getSiguiente();
+	}
+	return papa;
+}
+
+bool ArbolL::esHoja(CajaP* caja){
+	return caja->getSub() == 0;
+}
+
+Etiqueta ArbolL::etiqueta(CajaP* caja){
+	return caja->getEtiqueta();
+}
+
+int ArbolL::numNodos(){//Se hace en tiempo constante pues se tiene una variable de longitud en la clase lista.
+	return this->listaP->getLongitud();
+}
+
+int ArbolL::numHijos(CajaP* caja){
+	int numHijos = 0;
+	if(!esHoja(caja)){
+		SubLista * hijos = caja->getSub();
+		CajaSub * iter = hijos->primera();
+		++numHijos;
+		while(iter->getSiguiente() != 0){
+			++numHijos;
+			iter = iter->getSiguiente();
+		}
+	}
+	return numHijos;
+}
+
+void ArbolL::modificarEtiq(CajaP* caja, Etiqueta e){
+	caja->setEtiqueta(e);
+}
+
+void ArbolL::agregarHijo(CajaP* caja, Etiqueta e, int i){
+	this->listaP->insertar(e, 1);//se agrega despues de la raiz
+	CajaP * nuevo = this->listaP->primera()->getSiguiente();//El recien insertado.
+	if (caja->getSub() == 0){
+		caja->setSub(nuevo);
+	}
+	else if(caja->getSub()->getLongitud() > 0){
+		caja->sub->insertar(i,nuevo);
+	}
+}
+
+void ArbolL::borrarHoja(CajaP* caja){
+	bool encontrado = false;
+	CajaP * iterP = listaP->primera();
+	CajaP * papa = padre(caja);
+	CajaSub * iterSub = papa->sub->primera();
+	while(iterSub->siguiente != 0 && !encontrado){
+		if(iterSub->getPrincipal() == caja){
+			papa->sub->borrar(iterSub);
+			encontrado = true;
+		}
+		else{
+			iterSub = iterSub->siguiente;
+		}
+	}
+	this->listaP->borrar(caja);
+}
+
+void ArbolL::ponerRaiz(Etiqueta e){//Solo si esta vacio
+	CajaP * raiz = new CajaP(e);
+	this->listaP = new ListaP(raiz);
 }

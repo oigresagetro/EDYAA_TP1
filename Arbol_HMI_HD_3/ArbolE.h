@@ -1,21 +1,21 @@
-#ifndef _ARBOLHMIHDULTIMOALPADRE
-#define _ARBOLHMIHDULTIMOALPADRE
+#ifndef _ARBOLHMIHD4PUNTEROS
+#define _ARBOLHMIHD4PUNTEROS
 #define TAM 20
 #include<iostream>
-#include "Nodo2.h"
+#include "Nodo3.h"
 
-typedef Nodo2* Nodo;
-typedef char Etiqueta; 
+typedef Nodo3* Nodo;
+typedef char Etiqueta;
 
 using namespace std;
 
-class ArbolD{
+class ArbolE{
 	private:
 		Nodo sRaiz;
 		int numNodos;
 	public:
-		ArbolD();
-		~ArbolD();
+		ArbolE();
+		~ArbolE();
 		void posOrdenB(Nodo);
 		void vaciar();
 		bool vacia();

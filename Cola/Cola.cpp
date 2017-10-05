@@ -20,7 +20,7 @@ void Cola::vaciar(){
 void Cola::encolar(int e){
 	ultimo = (ultimo+1)%10;
 	arreglo[ultimo] = e;
-	numeroElem++;
+	++numeroElem;
 }
 
 void Cola::desencolar(){
@@ -32,13 +32,14 @@ void Cola::desencolar(){
 }
 
 int Cola::frente(){
-	return arreglo[primero];
+	if(!vacia()){
+		return arreglo[primero];
+	}
 }
-
-int Cola::vacia(){
-    int estaVacia=0;
+bool Cola::vacia(){
+    bool estaVacia=false;
     if(numeroElem==0){
-        estaVacia=1;
+        estaVacia=true;
     }
     return estaVacia;
 }
